@@ -1,7 +1,15 @@
+import 'package:cristal_webapp/registerScreen.dart';
+import 'package:cristal_webapp/registrationCubit/register_cubit.dart';
+import 'package:cristal_webapp/services/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await ServiceLocator.init();
   runApp(const MyApp());
 }
 
@@ -10,48 +18,35 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: WebViewPage(),
-    );
-  }
-}
+    // return const MaterialApp(
+    //   home: RegisterCodePage(),
+    // );
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<RegisterCubit>(create: (_) => sl<RegisterCubit>()),
 
-class WebViewPage extends StatefulWidget {
-  const WebViewPage({super.key});
-
-  @override
-  State<WebViewPage> createState() => _WebViewPageState();
-}
-
-class _WebViewPageState extends State<WebViewPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset(
-              'assets/cristal_logo.png', // your app icon path
-              height: 45,
-              width: 150,
-            ),
-            const SizedBox(width: 10),
-           // const Text("Cristal"),
-          ],
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Cristal',
+        theme: ThemeData(
+          fontFamily: 'TitilliumWeb',
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          appBarTheme: const AppBarTheme(
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            surfaceTintColor: Colors.transparent,
+            // systemOverlayStyle: SystemUiOverlayStyle(
+            //   statusBarColor: AppColors.theme,
+            //   statusBarIconBrightness: Brightness.dark,
+            //   statusBarBrightness: Brightness.light,
+            // ),
+          ),
         ),
-      ),
-      body: InAppWebView(
-        initialUrlRequest: URLRequest(
-          url: WebUri("https://fsp.cristaledu.com"),
-        ),
-        initialSettings: InAppWebViewSettings(
-          javaScriptEnabled: true,
-          mediaPlaybackRequiresUserGesture: false,
-        ),
-        onWebViewCreated: (controller) {},
+        home: const RegisterCodePage(),
       ),
     );
   }
 }
+
