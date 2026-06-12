@@ -61,7 +61,7 @@ class _RegisterCodePageState extends State<RegisterCodePage> {
                 }
 
                 if (state is FetchSchoolSuccess) {
-                  print('SuccessResult ${state.response.message}');
+
                   if(state.response.message=='School Not Found'){
                     ScaffoldMessenger.of(
                       context,

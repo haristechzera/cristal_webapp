@@ -40,12 +40,21 @@ class RegisterCubit extends Cubit<RegisterState> {
           emit(FetchSchoolFailure(failure.message));
         },
             (response) async {
-          print("schoolResponse $response");
-          final pref = SharedPreferenceHelper();
-          await pref.setAppStoreVersion(response.schoolDetails!.first.appStoreVersion!);
-          await pref.setPlayStoreVersion(response.schoolDetails!.first.playStoreVersion!);
-          //AppData.schoolName=response.schoolDetails!.first.schoolName!;
-          emit(FetchSchoolSuccess(response));
+
+          if(response.status==200 || response.status==201) {
+
+            final pref = SharedPreferenceHelper();
+            await pref.setAppStoreVersion(
+                response.schoolDetails!.first.appStoreVersion!);
+            await pref.setPlayStoreVersion(
+                response.schoolDetails!.first.playStoreVersion!);
+            //AppData.schoolName=response.schoolDetails!.first.schoolName!;
+            emit(FetchSchoolSuccess(response));
+          }
+          else {
+
+            emit(FetchSchoolSuccess(response));
+          }
         },
       );
     } catch (e, stacktrace) {
