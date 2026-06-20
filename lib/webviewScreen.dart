@@ -19,16 +19,30 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset(
-              'assets/cristal_logo.png',
-              height: 45,
-              width: 150,
-            ),
-            const SizedBox(width: 10),
-          ],
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                'assets/cristal_logo.png',
+                height: 45,
+                width: 150,
+              ),
+              const SizedBox(width: 10),
+              InkWell(
+                onTap: (){
+                  print('clicked');
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WebViewPage(webString: widget.webString),
+                    ),
+                  );
+                },
+                  child: Icon(Icons.refresh))
+            ],
+          ),
         ),
       ),
       body: Stack(
